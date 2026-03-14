@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ayurvedic Health Blog – AyurLife Naturals</title>
+  <meta name="description" content="Read expert Ayurvedic health tips, product guides, and natural wellness articles by AyurLife Naturals physicians." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title"       content="Ayurvedic Health Blog – AyurLife Naturals" />
+  <meta property="og:description" content="Expert Ayurvedic tips, natural health guides & product insights." />
+  <meta property="og:type"        content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          forest:  { DEFAULT: '#2d6a4f', dark: '#1b4332', light: '#52b788' },
+          earth:   { DEFAULT: '#8b5e3c' },
+          cream:   { DEFAULT: '#fdf6ec', dark: '#f5e6c8' },
+          saffron: { DEFAULT: '#e76f00' },
+          sage:    { DEFAULT: '#95af7f' },
+        },
+        fontFamily: {
+          serif: ['Cormorant Garamond','serif'],
+          sans:  ['DM Sans','sans-serif'],
+        }
+      }}
+    }
+  </script>
+  <style>
+    :root { --forest:#2d6a4f; --forest-dk:#1b4332; --cream:#fdf6ec; }
+    body { background:#fdf6ec; font-family:'DM Sans',sans-serif; color:#333; }
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-thumb { background:var(--forest); border-radius:4px; }
+
+    .navbar {
+      position:sticky; top:0; z-index:100;
+      background:rgba(253,246,236,.95); backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(45,106,79,.1);
+      box-shadow:0 1px 12px rgba(45,106,79,.07);
+    }
+
+    .blog-card {
+      background:#fff; border-radius:1.25rem; overflow:hidden;
+      box-shadow:0 2px 12px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.04);
+      transition:transform .3s, box-shadow .3s; text-decoration:none; color:inherit;
+      display:flex; flex-direction:column;
+    }
+    .blog-card:hover { transform:translateY(-5px); box-shadow:0 12px 32px rgba(0,0,0,.1); }
+    .blog-card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      min-height: 240px;
+    }
+    @media(max-width:640px) { .blog-card.featured { flex-direction: column; } }
+
+    .card-cover {
+      background:linear-gradient(135deg,#e8f5e9,#fdf6ec);
+      display:flex; align-items:center; justify-content:center;
+      font-size:3.5rem; min-height:160px; flex-shrink:0;
+    }
+    .blog-card.featured .card-cover { min-width:280px; font-size:5rem; }
+
+    .card-body { padding:1.25rem; flex:1; display:flex; flex-direction:column; }
+    .card-category {
+      display:inline-flex; align-items:center; gap:.3rem;
+      background:rgba(45,106,79,.08); color:#2d6a4f;
+      padding:.2rem .65rem; border-radius:50px;
+      font-size:.68rem; font-weight:700; letter-spacing:.06em;
+      text-transform:uppercase; margin-bottom:.6rem; width:fit-content;
+    }
+    .card-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.15rem; font-weight:700; color:#1b4332;
+      line-height:1.3; margin-bottom:.5rem;
+    }
+    .blog-card.featured .card-title { font-size:1.6rem; }
+    .card-excerpt { font-size:.82rem; color:#6b7280; line-height:1.6; flex:1; margin-bottom:.85rem; }
+    .card-meta    { display:flex; align-items:center; gap:.75rem; font-size:.72rem; color:#9ca3af; flex-wrap:wrap; }
+    .tag-pill {
+      background:rgba(45,106,79,.06); color:#2d6a4f;
+      padding:.15rem .55rem; border-radius:50px;
+      font-size:.68rem; font-weight:600;
+    }
+
+    .filter-pill {
+      padding:.4rem 1rem; border-radius:50px; font-size:.78rem; font-weight:600;
+      border:1.5px solid transparent; cursor:pointer; transition:all .2s;
+      background:#fff; color:#6b7280; border-color:#e5e7eb;
+    }
+    .filter-pill.active {
+      background:#2d6a4f; color:#fff; border-color:#2d6a4f;
+    }
+    .filter-pill:hover:not(.active) { border-color:#2d6a4f; color:#2d6a4f; }
+
+    .search-box {
+      position:relative; max-width:320px; width:100%;
+    }
+    .search-box i { position:absolute; left:.85rem; top:50%; transform:translateY(-50%); color:#9ca3af; font-size:.85rem; }
+    .search-box input {
+      width:100%; padding:.6rem 1rem .6rem 2.3rem;
+      border:1.5px solid #e5e7eb; border-radius:50px;
+      background:#fff; font-size:.85rem; color:#333;
+      outline:none; transition:border-color .2s;
+      font-family:'DM Sans',sans-serif;
+    }
+    .search-box input:focus { border-color:#2d6a4f; box-shadow:0 0 0 3px rgba(45,106,79,.1); }
+
+    .empty-state { text-align:center; padding:4rem 1rem; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-card { animation:fadeUp .5s ease both; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-forest flex items-center justify-center text-white text-sm">🌿</div>
+        <div>
+          <div class="font-serif font-bold text-forest-dark text-base leading-tight" id="nav-brand">AyurLife Naturals</div>
+          <div class="text-[9px] tracking-widest text-earth uppercase -mt-0.5">Naturals</div>
+        </div>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-sm text-gray-600 hover:text-forest font-medium hidden sm:block transition">← Home</a>
+        <a href="index.html#products"
+           class="text-xs bg-forest text-white px-4 py-2 rounded-full font-semibold hover:bg-forest-dark transition">
+          Shop Now
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="text-center py-14 px-4" style="background:linear-gradient(135deg,#e8f5e9 0%,#fdf6ec 100%);">
+    <div class="inline-flex items-center gap-2 bg-forest/10 text-forest px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+      🌿 Wellness Knowledge Hub
+    </div>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-forest-dark max-w-2xl mx-auto leading-tight mb-3">
+      Ayurvedic Health Blog
+    </h1>
+    <p class="text-gray-600 max-w-xl mx-auto text-base" id="hero-sub">
+      Doctor-written articles on natural wellness, Ayurvedic remedies, and healthy living.
+    </p>
+  </div>
+
+  <!-- FILTER & SEARCH BAR -->
+  <div class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+      <div class="flex flex-wrap gap-2" id="filter-pills">
+        <!-- Injected by JS -->
+      </div>
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="blog-search" placeholder="Search articles…" oninput="renderBlogGrid()" />
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="flex items-center justify-between mb-4">
+      <span id="post-count" class="text-sm text-gray-500"></span>
+    </div>
+
+    <!-- GRID -->
+    <div id="blog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected -->
+    </div>
+
+    <!-- Empty state -->
+    <div id="blog-empty" class="empty-state hidden">
+      <div class="text-5xl mb-3">🌿</div>
+      <h3 class="font-serif text-xl text-gray-400 font-semibold">No articles found</h3>
+      <p class="text-sm text-gray-400 mt-2">Try a different filter or search term</p>
+    </div>
+  </div>
+
+  <!-- CTA BANNER -->
+  <div class="max-w-6xl mx-auto px-4 pb-14">
+    <div class="rounded-2xl text-center text-white py-10 px-4" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">
+      <div class="text-3xl mb-3">🌿</div>
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold mb-2">Ready to Transform Your Health?</h2>
+      <p class="text-white/70 mb-5 text-sm">Browse our 100% natural Ayurvedic products or get a free physician consultation.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="index.html#products"
+           class="inline-flex items-center gap-2 bg-white text-forest-dark font-bold px-6 py-3 rounded-full text-sm hover:bg-cream transition">
+          <i class="fa-solid fa-bag-shopping"></i> Shop Products
+        </a>
+        <a id="wa-blog-btn" href="#" target="_blank"
+           class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-400 text-white font-bold px-6 py-3 rounded-full text-sm transition">
+          <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Us
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-forest-dark text-white py-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/60">
+      <div class="font-serif font-bold text-white text-base" id="footer-brand">AyurLife Naturals</div>
+      <div class="flex gap-5">
+        <a href="index.html" class="hover:text-white transition">Home</a>
+        <a href="blog.html"  class="hover:text-white transition text-white">Blog</a>
+        <a href="index.html#products" class="hover:text-white transition">Products</a>
+        <a href="index.html#consult"  class="hover:text-white transition">Consult</a>
+      </div>
+      <span id="footer-copy">© 2024 AyurLife Naturals</span>
+    </div>
+  </footer>
+
+<script>
+const BLOGS_KEY    = "ayurlife_blogs";
+const SETTINGS_KEY = "ayurlife_settings";
+
+function getSettings() {
+  const raw = localStorage.getItem(SETTINGS_KEY);
+  return raw ? JSON.parse(raw) : {};
+}
+function getBlogs() {
+  const raw = localStorage.getItem(BLOGS_KEY);
+  return raw ? JSON.parse(raw) : SAMPLE_BLOGS;
+}
+
+const BLOG_CATEGORIES = ["All","Immunity","Skin Care","Hair Care","Digestion","Herbal Teas","Oils","Lifestyle","Recipes"];
+let activeCategory = "All";
+
+function fmtDate(iso) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" });
+}
+function readTime(text) {
+  return Math.max(1, Math.round(text.replace(/<[^>]+>/g,"").split(/\s+/).length / 200));
+}
+
+// Filter pills
+function renderFilters() {
+  const pills = document.getElementById("filter-pills");
+  pills.innerHTML = BLOG_CATEGORIES.map(cat => `
+    <button class="filter-pill ${cat === activeCategory ? 'active' : ''}"
+            onclick="setCategory('${cat}')">${cat}</button>
+  `).join("");
+}
+window.setCategory = function(cat) {
+  activeCategory = cat;
+  renderFilters();
+  renderBlogGrid();
+};
+
+function renderBlogGrid() {
+  const search = document.getElementById("blog-search").value.toLowerCase();
+  let   blogs  = getBlogs().filter(b => b.published !== false);
+
+  if (activeCategory !== "All") {
+    blogs = blogs.filter(b => b.category === activeCategory);
+  }
+  if (search) {
+    blogs = blogs.filter(b =>
+      b.title.toLowerCase().includes(search) ||
+      (b.excerpt || "").toLowerCase().includes(search) ||
+      (b.tags || []).some(t => t.toLowerCase().includes(search))
+    );
+  }
+
+  const grid  = document.getElementById("blog-grid");
+  const empty = document.getElementById("blog-empty");
+  const count = document.getElementById("post-count");
+
+  count.textContent = `${blogs.length} article${blogs.length !== 1 ? "s" : ""}`;
+
+  if (!blogs.length) {
+    grid.innerHTML = "";
+    empty.classList.remove("hidden");
+    return;
+  }
+  empty.classList.add("hidden");
+
+  grid.innerHTML = blogs.map((b, i) => {
+    const rt    = readTime(b.content || b.excerpt || "");
+    const tags  = (b.tags || []).slice(0,2);
+    const feat  = i === 0 && !search && activeCategory === "All";
+    return `
+      <a href="post.html?id=${b.id}" class="blog-card ${feat ? "featured" : ""} fade-card"
+         style="animation-delay:${i * 60}ms">
+        <div class="card-cover ${feat ? "" : ""}" style="${feat ? "min-width:280px;" : ""}">
+          ${b.emoji || "🌿"}
+        </div>
+        <div class="card-body">
+          <div class="card-category">${b.emoji || "🌿"} ${b.category || "Ayurveda"}</div>
+          <div class="card-title">${b.title}</div>
+          <div class="card-excerpt">${b.excerpt || ""}</div>
+          <div class="card-meta">
+            <span><i class="fa-regular fa-calendar mr-1"></i>${fmtDate(b.date)}</span>
+            <span><i class="fa-regular fa-clock mr-1"></i>${rt} min</span>
+            ${tags.map(t => `<span class="tag-pill">#${t}</span>`).join("")}
+          </div>
+        </div>
+      </a>
+    `;
+  }).join("");
+}
+
+// Sample blogs (shown if no admin blogs exist yet)
+const SAMPLE_BLOGS = [
+  {
+    id: "sample1", published: true,
+    title: "10 Powerful Benefits of Ashwagandha You Must Know",
+    emoji: "🌿", category: "Immunity",
+    excerpt: "Ashwagandha is one of Ayurveda's most powerful adaptogenic herbs. Discover how it can transform your health, reduce stress and boost vitality.",
+    content: `<h2>What is Ashwagandha?</h2><p>Ashwagandha (<em>Withania somnifera</em>), also called Indian Ginseng, has been used in Ayurvedic medicine for over 3,000 years. It is classified as a Rasayana — a rejuvenating herb that promotes longevity and vitality.</p><h2>10 Science-Backed Benefits</h2><ol><li><strong>Reduces Cortisol (Stress Hormone)</strong> — Clinical studies show up to 44% reduction in cortisol levels.</li><li><strong>Boosts Testosterone</strong> — Increases testosterone and improves reproductive health in men.</li><li><strong>Improves Sleep Quality</strong> — Contains Triethylene glycol compounds that induce sleep naturally.</li><li><strong>Enhances Brain Function</strong> — Improves memory, reaction time, and cognitive performance.</li><li><strong>Strengthens Immunity</strong> — Stimulates immune cells and increases antibody production.</li><li><strong>Builds Muscle Strength</strong> — Increases muscle mass and reduces exercise-induced muscle damage.</li><li><strong>Supports Heart Health</strong> — May lower cholesterol and blood pressure naturally.</li><li><strong>Controls Blood Sugar</strong> — Improves insulin sensitivity in diabetic and pre-diabetic individuals.</li><li><strong>Reduces Inflammation</strong> — Contains powerful anti-inflammatory compounds called withanolides.</li><li><strong>Fights Depression</strong> — As effective as some pharmaceutical drugs in reducing anxiety symptoms.</li></ol><h2>How to Take Ashwagandha</h2><p>The most effective form is KSM-66 root extract at 300–600mg daily. Take it with warm milk at night for best absorption and sleep benefits. Allow 4–8 weeks for full effects.</p><blockquote>💡 "Ashwagandha is not a quick fix — it is a deep, slow medicine that rebuilds your vitality from the root." — Ayurvedic Vaidya</blockquote><h2>Who Should Avoid It?</h2><p>Pregnant women, people with thyroid conditions, and those on immunosuppressants should consult a physician before use.</p>`,
+    tags: ["ashwagandha","immunity","stress","adaptogen"],
+    author: "Dr. Priya Sharma", authorBio: "Ayurvedic Physician, BAMS",
+    date: new Date(Date.now() - 2*86400000).toISOString(),
+    metaDesc: "Discover 10 science-backed benefits of Ashwagandha — from stress relief to immunity, muscle strength and better sleep. Natural Ayurvedic guide."
+  },
+  {
+    id: "sample2", published: true,
+    title: "Triphala: The Ancient Gut Cleanser That Doctors Recommend",
+    emoji: "🫙", category: "Digestion",
+    excerpt: "Triphala is Ayurveda's greatest digestive formula — three fruits working in perfect synergy to heal your gut, detox your body and boost energy.",
+    content: `<h2>What is Triphala?</h2><p>Triphala literally means "three fruits" in Sanskrit — Amalaki (Amla), Bibhitaki (Bahera), and Haritaki (Harad). Together, they form one of Ayurveda's most complete healing formulas.</p><h2>Key Benefits</h2><ul><li><strong>Gentle Daily Detox</strong> — Cleanses the colon without harsh laxative effect.</li><li><strong>Improves Gut Bacteria</strong> — Acts as a prebiotic to feed healthy gut flora.</li><li><strong>Relieves Constipation</strong> — More effective than laxatives in clinical trials.</li><li><strong>Rich in Vitamin C</strong> — Amla contains 20x more Vitamin C than oranges.</li><li><strong>Weight Management</strong> — Reduces fat accumulation by improving metabolism.</li></ul><h2>How to Use</h2><p>Mix 1 teaspoon of Triphala churna in warm water and drink at bedtime. Consistency is key — benefits compound over 4–8 weeks of daily use.</p>`,
+    tags: ["triphala","digestion","gut health","detox","constipation"],
+    author: "Dr. Raj Mehta", authorBio: "Gastroenterology & Ayurveda Specialist",
+    date: new Date(Date.now() - 5*86400000).toISOString(),
+    metaDesc: "Everything you need to know about Triphala — Ayurveda's best gut cleanser. Benefits, dosage, and how it can transform your digestive health naturally."
+  },
+  {
+    id: "sample3", published: true,
+    title: "Bhringraj Oil: Stop Hair Fall in 4 Weeks Naturally",
+    emoji: "💆", category: "Hair Care",
+    excerpt: "Hair fall is one of the most common problems today. Bhringraj — the King of Herbs for hair — has been proven to stop hair loss and promote thick growth.",
+    content: `<h2>Why Hair Fall Happens</h2><p>Modern hair fall is primarily caused by DHT hormone imbalance, scalp inflammation, poor circulation, nutritional deficiency, and chronic stress — all of which Bhringraj addresses directly.</p><h2>What Makes Bhringraj So Powerful?</h2><p>Bhringraj (<em>Eclipta prostrata</em>) contains phytochemicals called Ecliptine and Wedelolactone that:</p><ul><li>Inhibit 5-alpha reductase (reduces DHT)</li><li>Increase blood circulation to hair follicles</li><li>Stimulate dormant hair follicles into growth phase</li><li>Reduce scalp inflammation and dandruff</li></ul><h2>How to Apply for Best Results</h2><p>Warm 2 tablespoons of Bhringraj oil. Part your hair and apply directly to the scalp using fingertips. Massage in circular motions for 10–15 minutes — this increases blood flow to follicles. Leave for minimum 1 hour (overnight is ideal). Wash with a mild herbal shampoo.</p><blockquote>Consistency is everything. Most people see significant results in 4–6 weeks with 2–3 applications per week.</blockquote>`,
+    tags: ["bhringraj","hair fall","hair growth","scalp care"],
+    author: "Dr. Ananya Patel", authorBio: "Trichology & Ayurvedic Medicine",
+    date: new Date(Date.now() - 8*86400000).toISOString(),
+    metaDesc: "Bhringraj oil stops hair fall naturally in 4 weeks. Learn the correct application method, key benefits and how this ancient Ayurvedic herb regrows hair."
+  }
+];
+
+function init() {
+  const settings = getSettings();
+  const siteName = settings.siteName || "AyurLife Naturals";
+  const wa       = settings.whatsapp  || "919999999999";
+
+  document.getElementById("nav-brand").textContent    = siteName;
+  document.getElementById("footer-brand").textContent = siteName;
+  document.getElementById("footer-copy").textContent  = `© ${new Date().getFullYear()} ${siteName}`;
+  document.getElementById("wa-blog-btn").href =
+    `https://wa.me/${wa}?text=${encodeURIComponent("Hello! I read your blog and want to know more about your products.")}`;
+
+  renderFilters();
+  renderBlogGrid();
+}
+init();
+</script>
+</body>
+</html>

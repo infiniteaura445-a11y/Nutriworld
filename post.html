@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Meta — dynamically filled by JS -->
+  <title id="page-title">Blog – AyurLife Naturals</title>
+  <meta name="description"    id="meta-desc"    content="" />
+  <meta name="keywords"       id="meta-keywords" content="" />
+  <meta name="author"         id="meta-author"   content="AyurLife Naturals" />
+  <meta name="robots"         content="index, follow" />
+  <link rel="canonical"       id="meta-canonical" href="" />
+
+  <!-- OpenGraph -->
+  <meta property="og:title"       id="og-title"       content="" />
+  <meta property="og:description" id="og-desc"         content="" />
+  <meta property="og:image"       id="og-image"        content="" />
+  <meta property="og:type"        content="article" />
+  <meta property="og:url"         id="og-url"          content="" />
+  <meta property="article:published_time" id="og-date" content="" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       id="tw-title" content="" />
+  <meta name="twitter:description" id="tw-desc"  content="" />
+
+  <!-- Schema.org Article JSON-LD — injected by JS -->
+  <script id="schema-jsonld" type="application/ld+json"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          forest:  { DEFAULT: '#2d6a4f', dark: '#1b4332', light: '#52b788' },
+          earth:   { DEFAULT: '#8b5e3c' },
+          cream:   { DEFAULT: '#fdf6ec', dark: '#f5e6c8' },
+          saffron: { DEFAULT: '#e76f00' },
+          sage:    { DEFAULT: '#95af7f' },
+        },
+        fontFamily: {
+          serif: ['Cormorant Garamond', 'serif'],
+          sans:  ['DM Sans', 'sans-serif'],
+        }
+      }}
+    }
+  </script>
+
+  <style>
+    :root {
+      --forest:    #2d6a4f;
+      --forest-dk: #1b4332;
+      --cream:     #fdf6ec;
+      --saffron:   #e76f00;
+      --sage:      #95af7f;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: #fdf6ec; color: #333; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: var(--forest); border-radius: 4px; }
+
+    /* Reading progress bar */
+    #read-progress {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, #2d6a4f, #e76f00);
+      z-index: 9999; transition: width .1s linear;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(253,246,236,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(45,106,79,.1);
+      box-shadow: 0 1px 12px rgba(45,106,79,.07);
+    }
+
+    /* Hero */
+    .blog-hero {
+      background: linear-gradient(135deg, #e8f5e9 0%, #fdf6ec 60%);
+      padding: 4rem 1.5rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .blog-hero::before {
+      content: '🌿';
+      position: absolute; top: -20px; left: -20px;
+      font-size: 8rem; opacity: .04;
+    }
+    .blog-hero::after {
+      content: '🌿';
+      position: absolute; bottom: -20px; right: -20px;
+      font-size: 8rem; opacity: .04; transform: rotate(180deg);
+    }
+
+    .blog-category-tag {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(45,106,79,.1); color: #2d6a4f;
+      padding: .35rem 1rem; border-radius: 50px;
+      font-size: .73rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    /* Article body */
+    .prose-ayur {
+      max-width: 760px; margin: 0 auto;
+      font-size: 1.05rem; line-height: 1.85;
+      color: #374151;
+    }
+    .prose-ayur h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem; font-weight: 700;
+      color: #1b4332; margin: 2.5rem 0 1rem;
+      line-height: 1.3; padding-bottom: .5rem;
+      border-bottom: 2px solid rgba(45,106,79,.1);
+    }
+    .prose-ayur h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: #2d6a4f; margin: 2rem 0 .75rem;
+    }
+    .prose-ayur p  { margin-bottom: 1.35rem; }
+    .prose-ayur ul, .prose-ayur ol {
+      padding-left: 1.5rem; margin-bottom: 1.35rem;
+    }
+    .prose-ayur li { margin-bottom: .5rem; }
+    .prose-ayur strong { color: #1b4332; font-weight: 700; }
+    .prose-ayur em    { color: #8b5e3c; font-style: italic; }
+    .prose-ayur blockquote {
+      border-left: 4px solid #2d6a4f;
+      background: rgba(45,106,79,.05);
+      padding: 1rem 1.25rem; border-radius: 0 .75rem .75rem 0;
+      margin: 1.5rem 0; font-style: italic; color: #4b5563;
+    }
+    .prose-ayur a { color: #2d6a4f; text-decoration: underline; }
+    .prose-ayur a:hover { color: #1b4332; }
+    .prose-ayur img {
+      width: 100%; border-radius: 1rem; margin: 1.5rem 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    }
+    .prose-ayur table {
+      width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+      font-size: .9rem;
+    }
+    .prose-ayur th {
+      background: #1b4332; color: #fff;
+      padding: .65rem 1rem; text-align: left; font-weight: 600;
+    }
+    .prose-ayur td {
+      padding: .6rem 1rem; border-bottom: 1px solid rgba(45,106,79,.1);
+    }
+    .prose-ayur tr:hover td { background: rgba(45,106,79,.03); }
+
+    /* Callout box */
+    .callout {
+      background: linear-gradient(135deg, rgba(45,106,79,.08), rgba(149,175,127,.08));
+      border: 1px solid rgba(45,106,79,.2);
+      border-radius: 1rem; padding: 1.25rem 1.5rem; margin: 1.75rem 0;
+    }
+    .callout-title { font-weight: 700; color: #1b4332; margin-bottom: .4rem; font-size: .95rem; }
+
+    /* TOC */
+    .toc-box {
+      background: #fff; border: 1px solid rgba(45,106,79,.15);
+      border-radius: 1rem; padding: 1.25rem 1.5rem;
+      margin: 1.75rem 0;
+    }
+    .toc-title { font-weight: 700; color: #1b4332; margin-bottom: .75rem; font-size: .9rem; display: flex; align-items: center; gap: .4rem; }
+    .toc-list  { list-style: none; padding: 0; space-y: .35rem; }
+    .toc-list li { padding: .2rem 0; }
+    .toc-list a  { color: #2d6a4f; font-size: .85rem; text-decoration: none; hover: underline; }
+    .toc-list a:hover { text-decoration: underline; }
+
+    /* Share buttons */
+    .share-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .5rem 1rem; border-radius: 50px; font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; border: none; text-decoration: none;
+    }
+    .share-wa   { background: #25d366; color: #fff; }
+    .share-wa:hover   { background: #128c7e; }
+    .share-copy { background: rgba(45,106,79,.1); color: #2d6a4f; }
+    .share-copy:hover { background: rgba(45,106,79,.2); }
+    .share-fb   { background: #1877f2; color: #fff; }
+    .share-fb:hover   { background: #1558b0; }
+
+    /* Related posts */
+    .related-card {
+      background: #fff; border-radius: 1rem; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      transition: transform .25s, box-shadow .25s;
+      cursor: pointer; text-decoration: none; color: inherit;
+      display: block;
+    }
+    .related-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+    .related-emoji { font-size: 2.5rem; padding: 1.25rem; background: linear-gradient(135deg,#e8f5e9,#fdf6ec); text-align: center; }
+    .related-body  { padding: 1rem; }
+    .related-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 700; color: #1b4332; line-height: 1.3; margin-bottom: .35rem; }
+    .related-meta  { font-size: .72rem; color: #9ca3af; }
+
+    /* WA CTA strip */
+    .wa-strip {
+      background: linear-gradient(135deg, #1b4332, #2d6a4f);
+      border-radius: 1.25rem; padding: 2rem 1.5rem;
+      text-align: center; color: #fff; margin: 2.5rem 0;
+    }
+    .wa-strip h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: .5rem; }
+    .wa-strip p  { color: rgba(255,255,255,.75); font-size: .88rem; margin-bottom: 1.25rem; }
+
+    /* Author box */
+    .author-box {
+      display: flex; gap: 1rem; align-items: center;
+      background: #fff; border-radius: 1rem; padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(45,106,79,.1); margin: 2rem 0;
+    }
+    .author-avatar {
+      width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #2d6a4f, #95af7f);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: #fff; font-weight: 700;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Sticky sidebar */
+    .sticky-toc {
+      position: sticky; top: 5rem;
+    }
+
+    /* Fade in */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp .6s ease both; }
+
+    @media (max-width: 768px) {
+      .blog-hero { padding: 3rem 1rem 2rem; }
+      .prose-ayur h2 { font-size: 1.4rem; }
+      .prose-ayur { font-size: .97rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="read-progress"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-forest flex items-center justify-center text-white text-sm">🌿</div>
+        <div>
+          <div class="font-serif font-bold text-forest-dark text-base leading-tight" id="nav-brand">AyurLife Naturals</div>
+          <div class="text-[9px] tracking-widest text-earth uppercase -mt-0.5">Naturals</div>
+        </div>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="blog.html" class="text-sm text-forest font-medium hover:text-forest-dark transition hidden sm:block">← All Blogs</a>
+        <a href="index.html#products"
+           class="text-xs bg-forest text-white px-4 py-2 rounded-full font-semibold hover:bg-forest-dark transition">
+          Shop Now
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="blog-hero fade-up" id="blog-hero">
+    <div class="blog-category-tag" id="hero-category">🌿 Ayurveda</div>
+    <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-forest-dark max-w-3xl mx-auto leading-tight mb-4" id="hero-title">
+      Loading...
+    </h1>
+    <p class="text-gray-600 max-w-2xl mx-auto text-base leading-relaxed mb-5" id="hero-excerpt"></p>
+    <div class="flex items-center justify-center gap-4 text-sm text-gray-500 flex-wrap" id="hero-meta">
+      <span><i class="fa-regular fa-calendar mr-1"></i><span id="hero-date"></span></span>
+      <span><i class="fa-regular fa-clock mr-1"></i><span id="hero-readtime"></span> min read</span>
+      <span><i class="fa-solid fa-user-doctor mr-1"></i>By <span id="hero-author"></span></span>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <div class="lg:grid lg:grid-cols-[1fr_280px] gap-10">
+
+      <!-- ARTICLE -->
+      <article>
+        <!-- Share bar top -->
+        <div class="flex items-center gap-2 mb-8 flex-wrap">
+          <span class="text-xs text-gray-500 font-medium">Share:</span>
+          <a id="share-wa-top" href="#" target="_blank" class="share-btn share-wa">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+          <button onclick="copyLink()" class="share-btn share-copy">
+            <i class="fa-solid fa-link"></i> Copy Link
+          </button>
+          <a id="share-fb" href="#" target="_blank" class="share-btn share-fb">
+            <i class="fa-brands fa-facebook-f"></i> Facebook
+          </a>
+        </div>
+
+        <!-- TOC (mobile) -->
+        <div class="toc-box lg:hidden" id="toc-mobile"></div>
+
+        <!-- Article content -->
+        <div class="prose-ayur" id="article-body">
+          <div class="text-center py-12 text-gray-400">
+            <div class="text-4xl mb-3">🌿</div>
+            <p>Loading blog post...</p>
+          </div>
+        </div>
+
+        <!-- Author box -->
+        <div class="author-box mt-8" id="author-box">
+          <div class="author-avatar" id="author-avatar">A</div>
+          <div>
+            <div class="font-semibold text-forest-dark text-sm" id="author-name">AyurLife Expert</div>
+            <div class="text-xs text-gray-500 mt-0.5" id="author-bio">Certified Ayurvedic Physician & Wellness Coach</div>
+          </div>
+        </div>
+
+        <!-- WhatsApp CTA -->
+        <div class="wa-strip" id="wa-cta-strip">
+          <div class="text-3xl mb-3">🌿</div>
+          <h3>Ready to Start Your Ayurvedic Journey?</h3>
+          <p>Browse our 100% natural products — doctor formulated, lab tested, trusted by thousands.</p>
+          <div class="flex flex-wrap gap-3 justify-center">
+            <a id="wa-cta-btn" href="#" target="_blank"
+               class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-400 text-white font-bold px-6 py-3 rounded-full transition text-sm">
+              <i class="fa-brands fa-whatsapp text-lg"></i> Order on WhatsApp
+            </a>
+            <a href="index.html#products"
+               class="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white font-semibold px-6 py-3 rounded-full transition text-sm">
+              <i class="fa-solid fa-bag-shopping"></i> Browse Products
+            </a>
+          </div>
+        </div>
+
+        <!-- Share bar bottom -->
+        <div class="flex items-center gap-2 mt-6 flex-wrap">
+          <span class="text-xs text-gray-500 font-medium">Found this helpful? Share it:</span>
+          <a id="share-wa-bot" href="#" target="_blank" class="share-btn share-wa">
+            <i class="fa-brands fa-whatsapp"></i> Share on WhatsApp
+          </a>
+          <button onclick="copyLink()" class="share-btn share-copy">
+            <i class="fa-regular fa-copy"></i> Copy Link
+          </button>
+        </div>
+
+        <!-- Tags -->
+        <div class="mt-8" id="tags-section"></div>
+
+        <!-- Related posts -->
+        <div id="related-section" class="mt-12">
+          <h2 class="font-serif text-2xl font-bold text-forest-dark mb-5">📚 Related Articles</h2>
+          <div class="grid sm:grid-cols-3 gap-4" id="related-grid"></div>
+        </div>
+      </article>
+
+      <!-- SIDEBAR (desktop) -->
+      <aside class="hidden lg:block">
+        <div class="sticky-toc space-y-5">
+
+          <!-- TOC -->
+          <div class="toc-box" id="toc-desktop"></div>
+
+          <!-- Product recommendation -->
+          <div class="bg-white rounded-2xl border border-forest/10 p-4" id="sidebar-product">
+            <div class="text-xs font-bold text-forest uppercase tracking-widest mb-3">🌿 Featured Product</div>
+            <div id="sidebar-product-content">
+              <div class="text-center py-4 text-gray-300 text-sm">Loading...</div>
+            </div>
+          </div>
+
+          <!-- Quick consult -->
+          <div class="bg-forest-dark rounded-2xl p-4 text-white text-center">
+            <div class="text-2xl mb-2">👨‍⚕️</div>
+            <div class="font-bold text-sm mb-1">Free Consultation</div>
+            <div class="text-xs text-white/70 mb-3">Talk to our Ayurvedic physician — free!</div>
+            <a href="index.html#consult"
+               class="inline-block bg-green-500 hover:bg-green-400 text-white text-xs font-bold px-4 py-2 rounded-full transition w-full text-center">
+              Book Free Consult
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-forest-dark text-white py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/60">
+      <div class="font-serif font-bold text-white text-base" id="footer-brand">AyurLife Naturals</div>
+      <div class="flex gap-4">
+        <a href="index.html" class="hover:text-white transition">Home</a>
+        <a href="blog.html" class="hover:text-white transition">Blog</a>
+        <a href="index.html#products" class="hover:text-white transition">Products</a>
+        <a href="index.html#consult" class="hover:text-white transition">Consult</a>
+      </div>
+      <div id="footer-copy">© 2024 AyurLife Naturals</div>
+    </div>
+  </footer>
+
+<script>
+// ═══════════════════════════════════════════════
+// BLOG POST PAGE — app logic
+// ═══════════════════════════════════════════════
+const BLOGS_KEY    = "ayurlife_blogs";
+const SETTINGS_KEY = "ayurlife_settings";
+const PRODUCTS_KEY = "ayurlife_products";
+
+function getSettings() {
+  const raw = localStorage.getItem(SETTINGS_KEY);
+  return raw ? JSON.parse(raw) : {};
+}
+function getBlogs() {
+  const raw = localStorage.getItem(BLOGS_KEY);
+  return raw ? JSON.parse(raw) : [];
+}
+function getProducts() {
+  const raw = localStorage.getItem(PRODUCTS_KEY);
+  return raw ? JSON.parse(raw) : [];
+}
+
+// Get post ID from URL: ?id=xxx
+function getPostId() {
+  return new URLSearchParams(window.location.search).get("id");
+}
+
+// ── Reading progress bar ──
+window.addEventListener("scroll", () => {
+  const docH = document.body.scrollHeight - window.innerHeight;
+  const pct  = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+  document.getElementById("read-progress").style.width = pct + "%";
+}, { passive: true });
+
+// ── Estimate read time ──
+function readTime(text) {
+  const words = text.replace(/<[^>]+>/g, "").split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+// ── Format date ──
+function fmtDate(iso) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+}
+
+// ── Build TOC from H2s ──
+function buildTOC(html) {
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  const h2s = tmp.querySelectorAll("h2");
+  if (h2s.length < 2) return "";
+  let items = "";
+  h2s.forEach((h, i) => {
+    const id  = "section-" + i;
+    h.id = id;
+    items += `<li><a href="#${id}" onclick="smoothTo('${id}')">→ ${h.textContent}</a></li>`;
+  });
+  // Write back IDs
+  tmp.querySelectorAll("h2").forEach((h, i) => h.setAttribute("id","section-"+i));
+  return { toc: `<div class="toc-title"><i class="fa-solid fa-list"></i> Table of Contents</div><ul class="toc-list">${items}</ul>`,
+           html: tmp.innerHTML };
+}
+window.smoothTo = function(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
+// ── Render sidebar product ──
+function renderSidebarProduct(post) {
+  const products = getProducts();
+  const settings = getSettings();
+  const wa = settings.whatsapp || "919999999999";
+
+  // Find product matching post's linked product, else pick first
+  const prod = (post.linkedProduct
+    ? products.find(p => p.id === post.linkedProduct)
+    : null) || products[0];
+
+  if (!prod) { document.getElementById("sidebar-product").style.display="none"; return; }
+
+  const waText = encodeURIComponent(`Hello! I read your blog and want to order *${prod.name}* (₹${prod.price}).`);
+  document.getElementById("sidebar-product-content").innerHTML = `
+    <div class="text-center">
+      <div style="font-size:2.5rem; padding:.75rem; background:linear-gradient(135deg,#e8f5e9,#fdf6ec); border-radius:.75rem; margin-bottom:.75rem;">
+        ${prod.emoji || "🌿"}
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif; font-weight:700; color:#1b4332; font-size:1rem; margin-bottom:.3rem;">${prod.name}</div>
+      <div style="font-size:.78rem; color:#888; margin-bottom:.75rem; line-height:1.4;">${prod.description}</div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; color:#1b4332; margin-bottom:.75rem;">₹${Number(prod.price).toLocaleString('en-IN')}</div>
+      <a href="https://wa.me/${wa}?text=${waText}" target="_blank"
+         style="display:flex;align-items:center;justify-content:center;gap:.4rem;background:#25d366;color:#fff;padding:.55rem;border-radius:50px;font-size:.8rem;font-weight:700;text-decoration:none;transition:background .2s;">
+        <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+      </a>
+    </div>
+  `;
+}
+
+// ── Render related posts ──
+function renderRelated(currentId) {
+  const blogs  = getBlogs().filter(b => b.id !== currentId && b.published !== false);
+  const pick   = blogs.slice(0, 3);
+  const grid   = document.getElementById("related-grid");
+  if (!pick.length) { document.getElementById("related-section").style.display="none"; return; }
+  grid.innerHTML = pick.map(b => `
+    <a href="post.html?id=${b.id}" class="related-card">
+      <div class="related-emoji">${b.emoji || "🌿"}</div>
+      <div class="related-body">
+        <div class="related-title">${b.title}</div>
+        <div class="related-meta">${fmtDate(b.date)} · ${readTime(b.content)} min read</div>
+      </div>
+    </a>
+  `).join("");
+}
+
+// ── Render tags ──
+function renderTags(tags) {
+  if (!tags || !tags.length) return;
+  const el = document.getElementById("tags-section");
+  el.innerHTML = `
+    <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Tags</div>
+    <div class="flex flex-wrap gap-2">
+      ${tags.map(t => `<span style="background:rgba(45,106,79,.08);color:#2d6a4f;padding:.25rem .75rem;border-radius:50px;font-size:.75rem;font-weight:600;">#${t}</span>`).join("")}
+    </div>
+  `;
+}
+
+// ── Set all meta tags ──
+function setMeta(post, settings) {
+  const url     = window.location.href;
+  const siteName = settings.siteName || "AyurLife Naturals";
+  const rt      = readTime(post.content);
+  const desc    = post.metaDesc || post.excerpt || post.title;
+  const kw      = (post.tags || []).join(", ");
+
+  document.getElementById("page-title").textContent       = `${post.title} | ${siteName}`;
+  document.getElementById("meta-desc").content            = desc;
+  document.getElementById("meta-keywords").content        = kw;
+  document.getElementById("meta-canonical").href          = url;
+  document.getElementById("og-title").content             = post.title;
+  document.getElementById("og-desc").content              = desc;
+  document.getElementById("og-image").content             = post.coverImage || "";
+  document.getElementById("og-url").content               = url;
+  document.getElementById("og-date").content              = post.date || "";
+  document.getElementById("tw-title").content             = post.title;
+  document.getElementById("tw-desc").content              = desc;
+
+  // Schema.org Article
+  const schema = {
+    "@context": "https://schema.org",
+    "@type":    "Article",
+    "headline": post.title,
+    "description": desc,
+    "keywords":    kw,
+    "datePublished": post.date,
+    "author": { "@type": "Person", "name": post.author || siteName },
+    "publisher": {
+      "@type": "Organization",
+      "name":  siteName,
+      "logo":  { "@type": "ImageObject", "url": "/icons/icon-192.png" }
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": url },
+    "timeRequired": `PT${rt}M`
+  };
+  document.getElementById("schema-jsonld").textContent = JSON.stringify(schema, null, 2);
+}
+
+// ── Copy link ──
+window.copyLink = function() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    showCopyMsg();
+  }).catch(() => {
+    const inp = document.createElement("input");
+    inp.value = window.location.href;
+    document.body.appendChild(inp);
+    inp.select();
+    document.execCommand("copy");
+    document.body.removeChild(inp);
+    showCopyMsg();
+  });
+};
+function showCopyMsg() {
+  const btns = document.querySelectorAll(".share-copy");
+  btns.forEach(b => { b.innerHTML = '<i class="fa-solid fa-check"></i> Copied!'; });
+  setTimeout(() => {
+    btns.forEach(b => { b.innerHTML = '<i class="fa-solid fa-link"></i> Copy Link'; });
+  }, 2000);
+}
+
+// ── MAIN INIT ──
+function init() {
+  const postId   = getPostId();
+  const settings = getSettings();
+  const wa       = settings.whatsapp || "919999999999";
+  const siteName = settings.siteName || "AyurLife Naturals";
+
+  // Apply brand
+  document.getElementById("nav-brand").textContent    = siteName;
+  document.getElementById("footer-brand").textContent = siteName;
+  document.getElementById("footer-copy").textContent  = `© ${new Date().getFullYear()} ${siteName}`;
+
+  // WA CTA
+  const waCtaText = encodeURIComponent("Hello! I read your blog and want to explore your Ayurvedic products.");
+  document.getElementById("wa-cta-btn").href = `https://wa.me/${wa}?text=${waCtaText}`;
+
+  if (!postId) {
+    document.getElementById("hero-title").textContent = "Post not found";
+    document.getElementById("article-body").innerHTML = `<p class='text-gray-500'>No post ID specified. <a href='blog.html'>View all blogs →</a></p>`;
+    return;
+  }
+
+  const blogs = getBlogs();
+  const post  = blogs.find(b => b.id === postId);
+
+  if (!post) {
+    document.getElementById("hero-title").textContent = "Post not found";
+    document.getElementById("article-body").innerHTML = `<p class='text-gray-500'>This post doesn't exist or was deleted. <a href='blog.html' style='color:#2d6a4f;text-decoration:underline;'>View all blogs →</a></p>`;
+    return;
+  }
+
+  // Set meta
+  setMeta(post, settings);
+
+  const rt = readTime(post.content);
+
+  // Hero
+  document.getElementById("hero-category").innerHTML = `${post.emoji || "🌿"} ${post.category || "Ayurveda"}`;
+  document.getElementById("hero-title").textContent   = post.title;
+  document.getElementById("hero-excerpt").textContent = post.excerpt || "";
+  document.getElementById("hero-date").textContent    = fmtDate(post.date);
+  document.getElementById("hero-readtime").textContent = rt;
+  document.getElementById("hero-author").textContent   = post.author || "AyurLife Expert";
+
+  // Author box
+  const authorInitial = (post.author || "A").charAt(0).toUpperCase();
+  document.getElementById("author-avatar").textContent = authorInitial;
+  document.getElementById("author-name").textContent   = post.author || "AyurLife Expert";
+  document.getElementById("author-bio").textContent    = post.authorBio || "Certified Ayurvedic Physician & Wellness Coach";
+
+  // Share links
+  const pageUrl   = encodeURIComponent(window.location.href);
+  const pageTitle = encodeURIComponent(post.title);
+  const waShare   = encodeURIComponent(`🌿 Read this: ${post.title}\n${window.location.href}`);
+  document.getElementById("share-wa-top").href = `https://wa.me/?text=${waShare}`;
+  document.getElementById("share-wa-bot").href = `https://wa.me/?text=${waShare}`;
+  document.getElementById("share-fb").href     = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+
+  // Content + TOC
+  const processed = buildTOC(post.content || "");
+  let   finalHTML = processed ? processed.html : (post.content || "");
+  const tocHTML   = processed ? processed.toc  : "";
+
+  document.getElementById("article-body").innerHTML = finalHTML;
+
+  if (tocHTML) {
+    document.getElementById("toc-mobile").innerHTML  = tocHTML;
+    document.getElementById("toc-desktop").innerHTML = tocHTML;
+  } else {
+    document.getElementById("toc-mobile").style.display  = "none";
+    document.getElementById("toc-desktop").style.display = "none";
+  }
+
+  // Sidebar
+  renderSidebarProduct(post);
+  renderRelated(postId);
+  renderTags(post.tags);
+}
+
+init();
+</script>
+</body>
+</html>
