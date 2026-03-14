@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+  seed-firestore.html  –  AyurLife Naturals
+  ══════════════════════════════════════════════
+  ONE-TIME USE: Open this file in browser to seed
+  your Firestore "products" collection with all
+  12 demo products automatically.
+
+  Steps:
+  1. Open this file in your browser (must be served,
+     not opened as file:// — use Live Server in VS Code)
+  2. Click "Seed Products to Firestore"
+  3. Wait for "All done!" message
+  4. Delete this file after seeding (security)
+  ══════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seed Firestore – AyurLife</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0fdf4; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+    .card { background: #fff; border-radius: 1rem; padding: 2rem; max-width: 600px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,.1); }
+    h1 { color: #1b4332; font-size: 1.5rem; margin-bottom: .5rem; }
+    p  { color: #555; font-size: .9rem; margin-bottom: 1.5rem; }
+    button { background: #2d6a4f; color: #fff; border: none; padding: .85rem 2rem; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background .2s; width: 100%; }
+    button:hover { background: #1b4332; }
+    button:disabled { background: #aaa; cursor: not-allowed; }
+    #log { margin-top: 1.5rem; font-size: .8rem; font-family: monospace; background: #f8f8f8; border-radius: .5rem; padding: 1rem; max-height: 300px; overflow-y: auto; line-height: 2; }
+    .ok  { color: #16a34a; }
+    .err { color: #dc2626; }
+    .info{ color: #2563eb; }
+    #warning { background: #fef3c7; border: 1px solid #f59e0b; border-radius: .5rem; padding: .75rem 1rem; font-size: .82rem; color: #92400e; margin-bottom: 1.25rem; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>🌿 Seed Firestore Database</h1>
+  <p>This will add all 12 AyurLife demo products to your Firestore <strong>"products"</strong> collection in project <strong>ayur-b415e</strong>.</p>
+  <div id="warning">⚠️ <strong>Delete this file after seeding.</strong> Anyone with this file can write to your database.</div>
+  <button id="seedBtn" onclick="seedProducts()">🚀 Seed Products to Firestore</button>
+  <div id="log"></div>
+</div>
+
+<script type="module">
+import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCLn0bOgV1K_lR9_8HsYeIxFI2LaaaSbYU",
+  authDomain:        "ayur-b415e.firebaseapp.com",
+  projectId:         "ayur-b415e",
+  storageBucket:     "ayur-b415e.firebasestorage.app",
+  messagingSenderId: "1035373238380",
+  appId:             "1:1035373238380:web:6059ea9de902eee417a049",
+  measurementId:     "G-X3TJQ5VZVE"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+const PRODUCTS = [
+  { id:"p1",  name:"Ashwagandha Gold Capsules",    price:599,  mrp:799,  category:"immunity",  description:"Premium KSM-66 Ashwagandha for stress relief, vitality and immune support.", fullDesc:"AyurLife Ashwagandha Gold contains certified organic KSM-66 Ashwagandha root extract — the world's most researched form of ashwagandha. Clinically proven to reduce cortisol levels, enhance energy, and strengthen immunity.", ingredients:["KSM-66 Ashwagandha (600mg)","Shilajit extract","Black pepper (BioPerine)","Organic ghee"], benefits:["Reduces stress & anxiety by 44%","Boosts testosterone & vitality","Strengthens immune system","Improves sleep quality","Enhances mental clarity"], usage:"Take 1–2 capsules daily with warm milk after meals.", rating:4.8, reviews:342, emoji:"🌿", badge:"Bestseller" },
+  { id:"p2",  name:"Tulsi Giloy Immunity Kadha",   price:349,  mrp:449,  category:"immunity",  description:"Traditional immunity-building kadha with 15 powerful Ayurvedic herbs.", fullDesc:"Our Tulsi Giloy Kadha is prepared using the traditional kadha method — slow-simmered for maximum potency.", ingredients:["Tulsi (Holy Basil)","Giloy stem","Mulethi","Ginger","Black pepper","Cinnamon","Cardamom"], benefits:["Strengthens natural immunity","Anti-viral & anti-bacterial","Relieves cold & cough","Detoxifies blood","Improves respiratory health"], usage:"Mix 20ml in warm water and drink twice daily.", rating:4.7, reviews:218, emoji:"🍵", badge:"New" },
+  { id:"p3",  name:"Brahmi Mind Clarity Tablets",  price:449,  mrp:599,  category:"immunity",  description:"Ancient brain tonic for sharp memory, focus and mental calmness.", fullDesc:"Brahmi (Bacopa monnieri) has been revered for 3,000 years as the ultimate brain herb.", ingredients:["Brahmi extract (400mg)","Shankhpushpi","Jatamansi","Vacha"], benefits:["Improves memory & learning","Reduces brain fog","Calms anxiety naturally","Supports ADHD symptoms","Enhances concentration"], usage:"Take 1 tablet twice daily with lukewarm water.", rating:4.6, reviews:187, emoji:"🧠", badge:null },
+  { id:"p4",  name:"Rose Chandan Glow Face Pack",  price:299,  mrp:399,  category:"skin",      description:"Brightening Ayurvedic face pack with rose, sandalwood & turmeric.", fullDesc:"A luxurious blend of rose petals, pure sandalwood, Kashmiri saffron and turmeric.", ingredients:["Rose petal powder","Chandan (Sandalwood)","Turmeric","Kashmiri saffron","Multani mitti","Neem"], benefits:["Brightens skin tone","Reduces dark spots & blemishes","Deep cleanses pores","Anti-ageing properties","Natural glow"], usage:"Mix with rose water, apply on face, leave 15 mins, wash with cool water. Use 2–3 times weekly.", rating:4.9, reviews:412, emoji:"🌸", badge:"Top Rated" },
+  { id:"p5",  name:"Kumkumadi Night Serum",         price:799,  mrp:1099, category:"skin",      description:"Luxurious saffron-infused overnight facial oil for radiant skin.", fullDesc:"Kumkumadi Tailam is one of Ayurveda's most prized formulations — infused with 26 herbs and precious saffron.", ingredients:["Kashmiri saffron","Lotus extract","Sandalwood oil","Vetiver","Licorice root","Sesame oil base"], benefits:["Fades dark spots overnight","Intense skin brightening","Anti-ageing & wrinkle care","Deep nourishment","Even skin tone"], usage:"Apply 4–5 drops on clean face at night. Massage in upward circles.", rating:4.8, reviews:293, emoji:"✨", badge:"Premium" },
+  { id:"p6",  name:"Bhringraj Hair Growth Oil",    price:399,  mrp:549,  category:"hair",      description:"Potent herbal hair oil to stop hair fall and promote thick growth.", fullDesc:"Bhringraj, the King of Herbs for hair, combined with Amla, Brahmi and Coconut oil in traditional cold-press formula.", ingredients:["Bhringraj extract","Amla (Indian Gooseberry)","Brahmi","Methi seeds","Hibiscus flowers","Cold-pressed coconut oil"], benefits:["Stops hair fall drastically","Promotes new hair growth","Strengthens hair roots","Prevents premature greying","Deep scalp nourishment"], usage:"Apply to scalp, massage 10 minutes, leave 1 hour, wash with herbal shampoo. Use 2–3 times weekly.", rating:4.7, reviews:531, emoji:"💆", badge:"Bestseller" },
+  { id:"p7",  name:"Amla Shikakai Hair Wash",      price:249,  mrp:349,  category:"hair",      description:"Natural hair cleanser with Amla, Shikakai & Reetha — zero chemicals.", fullDesc:"A traditional Indian hair wash formula using nature's own cleansers. Free from SLS, parabens, and silicones.", ingredients:["Amla powder","Shikakai","Reetha","Hibiscus","Neem","Bhringraj"], benefits:["Cleanses without stripping oils","Reduces dandruff","Adds natural shine","100% chemical-free","pH balanced for scalp"], usage:"Mix 2–3 tbsp with water, apply to wet hair, massage, rinse well.", rating:4.5, reviews:167, emoji:"🌺", badge:null },
+  { id:"p8",  name:"Triphala Digestive Churna",    price:199,  mrp:279,  category:"digestive", description:"Classic three-fruit formula for complete digestive health & gut reset.", fullDesc:"Triphala combines three sacred fruits: Amalaki, Bibhitaki, and Haritaki for gentle daily detox.", ingredients:["Amalaki (Amla)","Bibhitaki (Bahera)","Haritaki (Harad)"], benefits:["Gentle daily cleanse & detox","Relieves constipation naturally","Improves gut microbiome","Anti-oxidant rich","Supports weight management"], usage:"Mix 1 tsp in warm water at bedtime.", rating:4.8, reviews:624, emoji:"🫙", badge:"Classic" },
+  { id:"p9",  name:"Moringa Green Tea",            price:279,  mrp:369,  category:"tea",       description:"Superfood moringa blended with green tea for energy & detox.", fullDesc:"Moringa, the Miracle Tree, blended with first-flush Darjeeling green tea for a refreshing daily brew.", ingredients:["Organic Moringa leaf","Darjeeling green tea","Lemongrass","Spearmint"], benefits:["Rich in vitamins A, C, E, K","Natural energy boost","Anti-inflammatory","Supports blood sugar levels","Detoxifies & alkalizes body"], usage:"Steep 1 tsp in 200ml water at 80°C for 2–3 minutes. Have 2 cups daily.", rating:4.6, reviews:283, emoji:"🍵", badge:"New" },
+  { id:"p10", name:"Tulsi Ginger Masala Chai",    price:249,  mrp:329,  category:"tea",       description:"Aromatic herbal chai with immunity-boosting Tulsi, ginger & spices.", fullDesc:"The classic Indian masala chai reimagined with Ayurvedic wisdom — comforting immunity ritual.", ingredients:["Holy Basil (Tulsi)","Ginger","Cardamom","Cinnamon","Black pepper","Clove","Assam tea"], benefits:["Boosts immunity naturally","Anti-viral & anti-bacterial","Soothes sore throat","Improves digestion","Warming & stress-relieving"], usage:"Boil 1 tsp in 200ml water or milk for 3–5 minutes. Add honey and enjoy.", rating:4.9, reviews:445, emoji:"☕", badge:"Bestseller" },
+  { id:"p11", name:"Mahanarayan Therapeutic Oil", price:499,  mrp:699,  category:"oils",      description:"Classical Ayurvedic oil for joint pain, muscle recovery & back care.", fullDesc:"Mahanarayan Tail contains 34 herbs in sesame oil base. Traditionally used for Vata disorders.", ingredients:["Ashwagandha","Shatavari","Dashamoola","Sesame oil base","34 classical herbs"], benefits:["Relieves chronic joint pain","Reduces muscle inflammation","Excellent for sciatica & backache","Post-workout muscle recovery","Improves mobility & flexibility"], usage:"Apply warm oil to affected area, massage 10–15 mins, leave 30 mins, bathe with warm water.", rating:4.7, reviews:198, emoji:"🫗", badge:"Therapeutic" },
+  { id:"p12", name:"Kesar Chandan Body Lotion",   price:449,  mrp:599,  category:"skin",      description:"Deep moisturizing lotion with saffron, sandalwood & aloe vera.", fullDesc:"Indulge your skin with the royal combination of Kashmiri saffron and pure sandalwood.", ingredients:["Kashmiri saffron extract","Sandalwood powder","Aloe vera","Shea butter","Vitamin E","Rose water"], benefits:["24-hour deep moisturization","Brightens body skin tone","Gentle & non-greasy","Fights dry skin & roughness","Divine fragrance"], usage:"Apply generously on clean skin after bath. Massage until absorbed. Use daily.", rating:4.6, reviews:221, emoji:"🧴", badge:null },
+];
+
+window.seedProducts = async function() {
+  const btn = document.getElementById("seedBtn");
+  const log = document.getElementById("log");
+  btn.disabled = true;
+  btn.textContent = "⏳ Seeding...";
+  log.innerHTML = '<div class="info">Starting seed operation...</div>';
+
+  let success = 0, failed = 0;
+
+  for (const product of PRODUCTS) {
+    try {
+      const { id, ...data } = product;
+      await setDoc(doc(db, "products", id), data);
+      log.innerHTML += `<div class="ok">✅ ${product.name}</div>`;
+      success++;
+    } catch (err) {
+      log.innerHTML += `<div class="err">❌ ${product.name}: ${err.message}</div>`;
+      failed++;
+    }
+    log.scrollTop = log.scrollHeight;
+    await new Promise(r => setTimeout(r, 200)); // avoid rate limiting
+  }
+
+  log.innerHTML += `<div class="info" style="margin-top:.5rem;font-size:.9rem;font-weight:bold">
+    ══ Done! ✅ ${success} added · ❌ ${failed} failed ══
+    <br/>⚠️ Please DELETE this seed-firestore.html file now!
+  </div>`;
+
+  btn.textContent = success === PRODUCTS.length ? "✅ All Done!" : `⚠️ Done (${failed} errors)`;
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline – AyurLife Naturals</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', 'Segoe UI', sans-serif;
+      background: #fdf6ec;
+      color: #1b4332;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+    .container { max-width: 400px; }
+    .icon { font-size: 5rem; margin-bottom: 1.5rem; }
+    h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: .75rem; }
+    p  { color: #555; line-height: 1.6; margin-bottom: 1.5rem; }
+    a  {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: #2d6a4f; color: #fff;
+      padding: .75rem 1.75rem; border-radius: 50px;
+      font-weight: 600; text-decoration: none;
+      transition: background .2s;
+    }
+    a:hover { background: #1b4332; }
+    .wa-btn {
+      background: #25d366;
+      margin-top: .75rem;
+    }
+    .wa-btn:hover { background: #128c7e; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">🌿</div>
+    <h1>You're Offline</h1>
+    <p>No internet connection right now. Please check your connection and try again. You can still reach us on WhatsApp!</p>
+    <a href="/" onclick="window.location.reload()">↩ Try Again</a>
+    <br />
+    <a href="https://wa.me/919999999999" target="_blank" class="wa-btn">
+      💬 WhatsApp Us
+    </a>
+  </div>
+</body>
+</html>
