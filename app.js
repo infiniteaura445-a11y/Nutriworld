@@ -4,11 +4,17 @@
 // ═══════════════════════════════════════════════
 
 import { fetchProducts } from "./firebase.js";
+import { applyAdminSettings, getAdminProducts, getAdminSettings } from "./admin-bridge.js";
 
 // ─────────────────────────────────────────────
-// CONFIG
+// CONFIG — reads from admin panel if set
 // ─────────────────────────────────────────────
-const WHATSAPP_NUMBER = "919999999999"; // Replace with your WhatsApp number (with country code, no +)
+function getWhatsapp() {
+  const s = getAdminSettings();
+  return (s && s.whatsapp) ? s.whatsapp : "919999999999";
+}
+// Keep backward compat
+const WHATSAPP_NUMBER = "919999999999";
 
 // ─────────────────────────────────────────────
 // CATEGORIES DATA
@@ -81,6 +87,9 @@ let deferredPrompt   = null;
 // INIT
 // ═══════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", async () => {
+  // ── Apply admin settings FIRST (colors, name, contact) ──
+  applyAdminSettings();
+
   initNavbar();
   initMobileMenu();
   initSearch();
@@ -93,11 +102,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   initScrollReveal();
   initPWA();
 
-  // Load products with skeleton
+  // ── Load products: admin localStorage first, then Firebase, then demo ──
   showSkeletons();
-  const products = await fetchProducts();
-  allProducts = products;
-  renderProducts(products);
+  const adminProducts = getAdminProducts();
+  if (adminProducts && adminProducts.length > 0) {
+    allProducts = adminProducts;
+    renderProducts(adminProducts);
+  } else {
+    const products = await fetchProducts();
+    allProducts = products;
+    renderProducts(products);
+  }
 });
 
 // ═══════════════════════════════════════════════
@@ -317,6 +332,7 @@ function renderProducts(products) {
 function buildProductCard(p) {
   const discount = p.mrp ? Math.round((1 - p.price / p.mrp) * 100) : 0;
   const stars    = buildStars(p.rating);
+  const waNum    = getWhatsapp();
   const waText   = encodeURIComponent(`Hello! I want to order *${p.name}* (₹${p.price}). Please confirm availability and delivery details.`);
 
   return `
@@ -342,7 +358,7 @@ function buildProductCard(p) {
           ${discount > 0 ? `<span class="discount-tag">${discount}% off</span>` : ""}
         </div>
         <div class="product-actions">
-          <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waText}"
+          <a href="https://wa.me/${waNum}?text=${waText}"
              target="_blank"
              class="btn-whatsapp flex items-center gap-1.5">
             <i class="fa-brands fa-whatsapp"></i> Order
@@ -397,6 +413,7 @@ window.openModal = function(productId) {
   const modal   = document.getElementById("product-modal");
   const body    = document.getElementById("modal-body");
   const discount = product.mrp ? Math.round((1 - product.price / product.mrp) * 100) : 0;
+  const waNum    = getWhatsapp();
   const waText   = encodeURIComponent(`Hello! I want to order *${product.name}* (₹${product.price}). Please confirm availability and delivery.`);
 
   body.innerHTML = `
@@ -450,7 +467,7 @@ window.openModal = function(productId) {
         </div>
       ` : ""}
 
-      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waText}"
+      <a href="https://wa.me/${waNum}?text=${waText}"
          target="_blank"
          class="btn-whatsapp w-full flex items-center justify-center gap-2 text-base">
         <i class="fa-brands fa-whatsapp text-xl"></i>
