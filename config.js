@@ -20,7 +20,7 @@ var SITE_CONFIG = {
   // ── CONTACT INFO ───────────────────────────────────────
   // WhatsApp: country code + number, no + or spaces
   // India example: 919876543210  (91 = India code)
-  whatsapp:    "919999999999",    // ← APNA NUMBER YAHAN LAGAO
+  whatsapp:    "919557752528",    // ← APNA NUMBER YAHAN LAGAO
 
   email:       "hello@ayurlifenaturals.com",
   phoneDisplay:"+91 99999 99999", // Contact section mein dikhega
