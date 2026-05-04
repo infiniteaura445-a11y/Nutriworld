@@ -32,7 +32,7 @@ var CFG = {
      Format: 91 + 10 digit number (no spaces, no +)
      Example: 919876543210
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  whatsapp:    "919557752528",
+  whatsapp:    "91 9557752528",
 
   /* --- CONTACT --- */
   phoneShow:   "+91 95577 52528",
@@ -609,12 +609,79 @@ var TESTI=[
   {n:'Ananya Patel',l:'Bangalore',i:'A',r:5,t:'Ordered Kumkumadi serum on a friend\'s recommendation. Within 2 weeks my skin tone has visibly brightened. Phenomenal quality!'},
 ];
 
-var allP=PRODS, aCat='all', aSrch='', navOpen=false, dPWA=null;
+var allP=[], aCat='all', aSrch='', navOpen=false, dPWA=null;
 
 function $(i){return document.getElementById(i)}
 function set(i,v){var e=$(i);if(e)e.textContent=v}
 function href(i,v){var e=$(i);if(e)e.href=v}
 function inr(n){return Number(n).toLocaleString('en-IN')}
+
+/* ── Merge admin localStorage over CFG defaults ── */
+function getMerged(){
+  /* Admin panel saves to 'ayurlife_settings' key */
+  try{
+    var raw=localStorage.getItem('ayurlife_settings');
+    if(raw){
+      var adm=JSON.parse(raw);
+      /* Admin keys → CFG keys mapping */
+      if(adm.siteName)    CFG.siteName   = adm.siteName;
+      if(adm.siteName)    CFG.brandShort = adm.siteName.split(' ')[0];
+      if(adm.tagline)     CFG.tagline    = adm.tagline.toUpperCase();
+      if(adm.heroTitle)   CFG.heroLine   = adm.heroTitle;
+      if(adm.heroSub)     CFG.heroSub    = adm.heroSub;
+      if(adm.whatsapp)    CFG.whatsapp   = adm.whatsapp;
+      if(adm.phoneDisplay)CFG.phoneShow  = adm.phoneDisplay;
+      if(adm.email)       CFG.email      = adm.email;
+      if(adm.hours)       CFG.hours      = adm.hours;
+      if(adm.address)     CFG.address    = adm.address;
+      if(adm.instagram)   CFG.instagram  = adm.instagram;
+      if(adm.facebook)    CFG.facebook   = adm.facebook;
+      if(adm.youtube)     CFG.youtube    = adm.youtube;
+      if(adm.twitter)     CFG.twitter    = adm.twitter;
+      if(adm.copyright)   CFG.copy       = adm.copyright;
+      if(adm.footerTag)   CFG.footTag    = adm.footerTag;
+      if(adm.colorPrimary)document.documentElement.style.setProperty('--g',adm.colorPrimary);
+      if(adm.colorAccent) document.documentElement.style.setProperty('--s',adm.colorAccent);
+      if(adm.colorBg)     document.documentElement.style.setProperty('--c',adm.colorBg);
+    }
+  }catch(e){}
+  /* Update W (whatsapp number) after merge */
+  W = CFG.whatsapp || W;
+}
+
+/* ── Get products: admin localStorage first, else CFG PRODS ── */
+function getProducts(){
+  try{
+    var raw=localStorage.getItem('ayurlife_products');
+    if(raw){
+      var adminProds=JSON.parse(raw);
+      if(adminProds&&adminProds.length>0){
+        /* Admin uses 'cat' or 'category' field — normalize */
+        return adminProds.map(function(p){
+          return {
+            id:     p.id||('p'+Math.random()),
+            name:   p.name||'',
+            price:  p.price||0,
+            mrp:    p.mrp||null,
+            cat:    p.cat||p.category||'immunity',
+            badge:  p.badge||null,
+            e:      p.emoji||p.e||'🌿',
+            desc:   p.description||p.desc||'',
+            full:   p.fullDesc||p.full||p.description||p.desc||'',
+            ingr:   p.ingredients||p.ingr||[],
+            ben:    p.benefits||p.ben||[],
+            use:    p.usage||p.use||'',
+            rating: p.rating||4.5,
+            rev:    p.reviews||p.rev||0,
+            image:  p.image||null,
+          };
+        });
+      }
+    }
+  }catch(e){}
+  return PRODS; /* fallback to hardcoded */
+}
+
 function wl(t){return'https://wa.me/'+W+'?text='+encodeURIComponent(t)}
 function strs(r){
   var f=Math.floor(r),h=(r%1>=.5)?1:0,e=5-f-h,s='';
@@ -628,6 +695,8 @@ function catL(k){for(var i=0;i<CATS.length;i++)if(CATS[i].k===k)return CATS[i].e
 
 /* ── Apply CFG to DOM ── */
 function applyAll(){
+  /* First merge admin settings over defaults */
+  getMerged();
   /* brand */
   set('LN',CFG.brandShort||'AyurLife');
   set('LS',CFG.tagline||'NATURALS');
@@ -636,18 +705,18 @@ function applyAll(){
   /* hero */
   set('HT',CFG.heroLine||'Wellness');
   set('HS',CFG.heroSub||'');
-  /* wa links */
+  /* wa links — recalculate after W updated */
   var base=wl('Hello, I want to know more about your Ayurvedic products.');
   ['nwa','mwa','hwa','fwa','waw','ftwa'].forEach(function(id){href(id,base);});
   href('cwa',wl('Hello, I need an Ayurvedic consultation.'));
   href('cwal','https://wa.me/'+W);
   /* contact */
-  set('cwn',CFG.phoneShow||'+91 99999 99999');
+  set('cwn', CFG.phoneShow||'+91 99999 99999');
   set('ftph',CFG.phoneShow||'+91 99999 99999');
   set('cetx',CFG.email||'hello@ayurlifenaturals.com');
   set('ftem',CFG.email||'hello@ayurlifenaturals.com');
   href('ceml','mailto:'+(CFG.email||'hello@ayurlifenaturals.com'));
-  set('chrs',CFG.hours||'Mon–Sat: 9AM – 8PM IST');
+  set('chrs',CFG.hours  ||'Mon–Sat: 9AM – 8PM IST');
   set('cadr',CFG.address||'India');
   set('ftad',CFG.address||'India');
   /* social */
@@ -877,6 +946,7 @@ document.addEventListener('DOMContentLoaded',function(){
   bindS('ms');
   initRev();
   showSkel();
+  allP = getProducts();
   setTimeout(function(){renderP(allP);},300);
 });
 
